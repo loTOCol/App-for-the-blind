@@ -24,12 +24,13 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import java.util.Vector;
 
-/** A class that encapsulates the tedious bits of rendering legible, bordered text onto a canvas. */
+/** A class that encapsulates the tedious bits of rendering legible, bordered text onto a canvas.
+ * 예측 결과 시각화*/
 public class BorderedText {
-  private final Paint interiorPaint;
-  private final Paint exteriorPaint;
+  private final Paint interiorPaint;  //텍스트의 내부를 그리기 위한 Paint 객체
+  private final Paint exteriorPaint; // 텍스트의 외부(경계)를 그리기 위한 Paint 객체
 
-  private final float textSize;
+  private final float textSize;  // 텍스트의 크기를 나타내는 float 값
 
   /**
    * Creates a left-aligned bordered text object with a white interior, and a black exterior with
@@ -39,7 +40,7 @@ public class BorderedText {
    */
   public BorderedText(final float textSize) {
     this(Color.WHITE, Color.BLACK, textSize);
-  }
+  } // 초기화
 
   /**
    * Create a bordered text object with the specified interior and exterior colors, text size and

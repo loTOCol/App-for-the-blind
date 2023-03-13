@@ -19,7 +19,8 @@ import android.util.Log;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Wrapper for the platform log function, allows convenient message prefixing and log disabling. */
+/** Wrapper for the platform log function, allows convenient message prefixing and log disabling.
+ * 로그 찍는 코드 */
 public final class Logger {
   private static final String DEFAULT_TAG = "tensorflow";
   private static final int DEFAULT_MIN_LOG_LEVEL = Log.DEBUG;

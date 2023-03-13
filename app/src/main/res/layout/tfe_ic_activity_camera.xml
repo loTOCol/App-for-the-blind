@@ -20,6 +20,7 @@
     android:background="#00000000">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00000000"
@@ -40,17 +41,18 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@color/tfe_semi_transparent">
+            android:background="@color/tfe_color_primary">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/doumi" />
         </androidx.appcompat.widget.Toolbar>
-
     </RelativeLayout>
 
     <include
         android:id="@+id/bottom_sheet_layout"
-        layout="@layout/tfe_ic_layout_bottom_sheet" />
+        layout="@layout/tfe_ic_layout_bottom_sheet"
+
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
