@@ -16,6 +16,8 @@
 
 package org.tensorflow.lite.examples.classification;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
 import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
@@ -35,6 +37,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -99,6 +104,9 @@ public abstract class CameraActivity extends AppCompatActivity
   private Device device = Device.CPU;
   private int numThreads = -1;
 
+
+  private TextToSpeech textToSpeech;
+
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
@@ -106,6 +114,16 @@ public abstract class CameraActivity extends AppCompatActivity
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.tfe_ic_activity_camera);
+
+    //tts 초기화
+    textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+      @Override
+      public void onInit(int status) {
+        if (status != TextToSpeech.SUCCESS) {
+          Log.e(TAG, "Failed to initialize TextToSpeech");
+        }
+      }
+    });
 
     if (hasPermission()) {
       setFragment();
@@ -511,32 +529,45 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 // 코드 값 출력해주는 함수!
-  @UiThread
-  protected void showResultsInBottomSheet(List<Recognition> results) {
-    if (results != null && results.size() >= 3) {
-      Recognition recognition = results.get(0);
-      if (recognition != null) {
-        if (recognition.getTitle() != null) recognitionTextView.setText(recognition.getTitle());
-        if (recognition.getConfidence() != null)
-          recognitionValueTextView.setText(
-              String.format("%.2f", (100 * recognition.getConfidence())) + "%");
+@UiThread
+protected void showResultsInBottomSheet(List<Recognition> results) {
+  if (results != null && results.size() >= 1) {
+    Recognition recognition = results.get(0);
+    if (recognition != null) {
+      boolean isTitleVisible = false;
+      if (recognition.getTitle() != null) {
+        recognitionTextView.setText(recognition.getTitle());
+        isTitleVisible = true;
       }
+      recognitionTextView.setVisibility(isTitleVisible && recognition.getConfidence() != null && recognition.getConfidence() * 100 > 60 ? View.VISIBLE : View.GONE);
 
-//      Recognition recognition1 = results.get(1);
-//      if (recognition1 != null) {
-//        if (recognition1.getTitle() != null) recognition1TextView.setText(recognition1.getTitle());
-//        if (recognition1.getConfidence() != null)
-//          recognition1ValueTextView.setText(
-//              String.format("%.2f", (100 * recognition1.getConfidence())) + "%");
-//      }
-//
-//      Recognition recognition2 = results.get(2);
-//      if (recognition2 != null) {
-//        if (recognition2.getTitle() != null) recognition2TextView.setText(recognition2.getTitle());
-//        if (recognition2.getConfidence() != null)
-//          recognition2ValueTextView.setText(
-//              String.format("%.2f", (100 * recognition2.getConfidence())) + "%");
-//      }
+      if (recognition.getConfidence() != null) {
+        float confidence = recognition.getConfidence() * 100;
+        recognitionValueTextView.setVisibility(confidence > 55 ? View.VISIBLE : View.GONE);
+        if (confidence > 55) {
+          recognitionValueTextView.setText(String.format("%.0f", confidence) + "%");
+          speak(recognition.getTitle()); // TTS로 타이틀 음성 출력
+        }
+      } else {
+        recognitionValueTextView.setVisibility(View.GONE);
+      }
+    } else {
+      recognitionTextView.setVisibility(View.GONE);
+      recognitionValueTextView.setVisibility(View.GONE);
+    }
+  } else {
+    recognitionTextView.setVisibility(View.GONE);
+    recognitionValueTextView.setVisibility(View.GONE);
+  }
+}
+
+  private void speak(String text) {
+    if (textToSpeech != null && !textToSpeech.isSpeaking()) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+      } else {
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+      }
     }
   }
 
