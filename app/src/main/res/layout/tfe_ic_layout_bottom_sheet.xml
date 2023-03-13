@@ -5,9 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/bottom_sheet_bg"
+    android:background="#4CAF50"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     android:orientation="horizontal"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    >
+
+  <!--     android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="8dp"
+    app:behavior_hideable="true"-->
 
     <LinearLayout
         android:id="@+id/gesture_layout"
@@ -15,7 +21,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:background="#4CAF50">
 
         <ImageView
             android:id="@+id/bottom_sheet_arrow"
@@ -36,7 +43,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+                android:fontFamily="@font/jalnan"
+
+
+                />
 
             <TextView
                 android:id="@+id/detected_item_value"
@@ -44,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/jalnan"/>
 
         </LinearLayout>
 
@@ -124,28 +136,6 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/crop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Crop"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/crop_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="right"
-            android:text="640*480"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -216,11 +206,7 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/darker_gray" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
