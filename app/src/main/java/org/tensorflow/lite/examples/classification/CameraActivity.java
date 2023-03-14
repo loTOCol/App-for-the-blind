@@ -16,7 +16,6 @@
 
 package org.tensorflow.lite.examples.classification;
 
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -120,7 +119,7 @@ public abstract class CameraActivity extends AppCompatActivity
       @Override
       public void onInit(int status) {
         if (status != TextToSpeech.SUCCESS) {
-          Log.e(TAG, "Failed to initialize TextToSpeech");
+          System.out.println( "Failed to initialize TextToSpeech");
         }
       }
     });
