@@ -20,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             // 두 번 클릭 이벤트 처리
+            // TTS 중지
+            if (textToSpeech != null) {
+                textToSpeech.stop();
+            }
+            // 다음 화면으로 이동
             Intent intent = new Intent(MainActivity.this, ClassifierActivity.class);
             startActivity(intent);
             return true;
